@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --font-lora / --font-inter are injected on <html> by next/font (see app/fonts.ts). */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: theme("colors.background");
+    color: theme("colors.text");
+    font-family: theme("fontFamily.sans");
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: theme("fontFamily.heading");
+    color: theme("colors.primaryDark");
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* Stable alignment for animated count-ups everywhere. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Result cards: white surface, hairline border in surface color. */
+  .card-result {
+    @apply rounded-card border border-surface bg-white shadow-card;
+  }
+
+  /* Input panel cards: filled with the surface color, no border. */
+  .card-input {
+    @apply rounded-card bg-surface;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-pill bg-primary px-5 py-2.5
+      text-sm font-medium text-white transition active:scale-[0.97]
+      hover:bg-primaryDark focus-visible:outline focus-visible:outline-2
+      focus-visible:outline-offset-2 focus-visible:outline-primaryDark;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-pill border border-primary
+      bg-transparent px-5 py-2.5 text-sm font-medium text-primaryDark transition
+      active:scale-[0.97] hover:bg-surface focus-visible:outline focus-visible:outline-2
+      focus-visible:outline-offset-2 focus-visible:outline-primaryDark;
+  }
+}
+
+@layer components {
+  .prose-mint code {
+    @apply rounded bg-surface px-1.5 py-0.5 font-mono text-[0.85em] text-primaryDark;
+  }
+  .prose-mint h2 {
+    @apply text-primaryDark;
+  }
+  .prose-mint strong {
+    @apply font-semibold text-primaryDark;
+  }
+}
+
+/* Print: isolate the shareable summary card. */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-summary,
+  .print-summary * {
+    visibility: visible;
+  }
+  .print-summary {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none;
+  }
+}
+
+/* Motion is opt-in: everything decorative freezes when the user asks for less. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
